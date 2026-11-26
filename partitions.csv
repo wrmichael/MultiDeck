@@ -1,0 +1,21 @@
+# MultiDeck flash layout for the Waveshare ESP32-P4-WIFI6-Touch-LCD-7B (32 MB flash).
+#
+# This is RigDeck's layout (partitions_p4.csv), on purpose: every partition keeps its place, so RigDeck
+# (and anything else built for this layout) runs from MultiDeck unchanged and keeps its settings,
+# log and Wi-Fi chip image.
+#
+#   factory  MultiDeck itself (written over USB). The bootloader starts it when otadata is blank.
+#   ota_0/1  Two app slots. A firmware picked on the screen is copied from the microSD card into one
+#            of them; the last two used stay there, so starting one of those again takes no copying.
+#   otadata  Which slot starts. MultiDeck's bootloader blanks it when BOOT is held after a reset,
+#            which brings MultiDeck back.
+#
+# Name,   Type, SubType, Offset,  Size
+nvs,      data, nvs,     0x9000,  0x6000,
+phy_init, data, phy,     0xf000,  0x1000,
+factory,  app,  factory, 0x10000, 0x300000,
+storage,  data, spiffs,  0x310000, 0x200000,
+c6fw,     data, 0x40,    0x600000, 0x1C0000,
+otadata,  data, ota,     0x7C0000, 0x2000,
+ota_0,    app,  ota_0,   0x800000, 0x400000,
+ota_1,    app,  ota_1,   0xC00000, 0x400000,

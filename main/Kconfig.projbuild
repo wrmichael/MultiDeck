@@ -1,0 +1,15 @@
+menu "MultiDeck"
+
+    config MULTIDECK_FW_DIR
+        string "Firmware folder on the microSD card"
+        default "/sdcard/firmware"
+        help
+            MultiDeck lists the .bin files in this folder. A text file with the same name
+            (RigDeck.bin -> RigDeck.txt) can give the title (first line) and a description.
+
+    config MULTIDECK_SPLASH_MS
+        int "Start-up screen time (ms)"
+        default 2500
+        range 0 10000
+
+endmenu

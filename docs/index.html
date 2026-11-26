@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MultiDeck Flasher</title>
+<meta name="description" content="Install MultiDeck, the firmware launcher, on the Waveshare ESP32-P4 7-inch touch board from your browser.">
+<!-- ESP Web Tools: the browser flasher used by ESPHome. Major version pinned as its documentation recommends. -->
+<script type="module" src="https://unpkg.com/esp-web-tools@10/dist/web/install-button.js?module"></script>
+<style>
+@font-face{font-family:"Audiowide";src:url("fonts/Audiowide-Regular.ttf") format("truetype");font-display:swap}
+:root{--bg:#0d1317;--pan:#151e25;--pan2:#1c2831;--line:#2a3944;--amb:#f6b93b;--gold:#d4af5a;--ok:#3fcf8e;--bad:#ff6b6b;--txt:#e6edf1;--dim:#9fb0bb;
+--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font:18px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:28px 16px 60px}
+h1{font:400 52px/1.1 "Audiowide",system-ui,sans-serif;margin:0;letter-spacing:.5px;
+   background:linear-gradient(180deg,#ffeca0 0%,#fad25c 18%,#b8801a 42%,#7a520a 50%,#c48e22 58%,#ffd664 78%,#966412 100%);
+   -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(3px 4px 3px rgba(0,0,0,.6))}
+.tag{font-size:20px;color:var(--dim);margin:6px 0 26px}
+h2{font-size:24px;margin:34px 0 12px}
+.card{background:var(--pan);border:1px solid var(--line);border-radius:12px;padding:22px 22px 18px}
+.ver{font:600 18px var(--mono);color:var(--dim)}
+ol{padding-left:1.4em;margin:12px 0 0}
+li{margin:10px 0}
+li b{color:#fff}
+.btn{display:inline-block;background:var(--amb);color:#1a1300;border:0;border-radius:10px;padding:16px 30px;font:700 22px system-ui,sans-serif;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:var(--pan2);color:var(--txt);border:1px solid var(--line);font-size:18px;padding:12px 20px}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:20px 0 6px}
+.warn{border-left:5px solid var(--amb);background:#221c0d;padding:12px 16px;border-radius:6px;margin:16px 0}
+code{font:16px var(--mono);background:var(--pan2);padding:2px 6px;border-radius:4px}
+pre{font:15px/1.5 var(--mono);background:var(--pan2);padding:12px 16px;border-radius:8px;overflow:auto}
+a{color:var(--amb)}
+footer{margin-top:40px;color:var(--dim);font-size:16px}
+esp-web-install-button:not(:defined) [slot=unsupported],esp-web-install-button:not(:defined) [slot=not-allowed]{display:none}
+</style>
+</head>
+<body>
+<main>
+  <h1>MultiDeck</h1>
+  <p class="tag">Keep several firmware on a microSD card and pick one on the touch screen. From the maker of RigDeck.</p>
+
+  <div class="card">
+    <div class="ver">Waveshare ESP32-P4-WIFI6-Touch-LCD-7B · <span id="v">…</span></div>
+    <ol>
+      <li>Connect the board's <b>USB-C port</b> to this computer with a data cable.</li>
+      <li>Press <b>Install MultiDeck</b>, pick the board's serial port, and follow the steps. Leave <b>"Erase device" unticked</b>: RigDeck's settings and log are kept.</li>
+      <li>Copy firmware <code>.bin</code> files into a folder named <b>firmware</b> on a FAT32 microSD card and put it in the board.</li>
+      <li>Tap a firmware on the screen, then <b>Start</b>.</li>
+    </ol>
+    <div class="row">
+      <esp-web-install-button manifest="manifest.json">
+        <button slot="activate" class="btn">Install MultiDeck</button>
+        <span slot="unsupported">Use Chrome or Edge on a computer to install from this page.</span>
+        <span slot="not-allowed">This page needs HTTPS.</span>
+      </esp-web-install-button>
+      <a class="btn alt" href="firmware/multideck.bin" download>Download .bin</a>
+    </div>
+    <div class="warn"><b>Back to MultiDeck</b> from any firmware: tap <b>RESET</b>, then straight away press and hold <b>BOOT</b> until MultiDeck appears.
+      (Holding BOOT <i>while</i> pressing RESET puts the board in USB download mode instead: just tap RESET again.)</div>
+  </div>
+
+  <h2>Which files work</h2>
+  <p>Any ESP32-P4 application image: <code>build/&lt;project&gt;.bin</code> from <code>idf.py build</code>, or a full-flash release image
+     (like <code>rigdeck-1.0.0.bin</code> from the RigDeck page). MultiDeck takes the app out of a full-flash image and checks
+     chip, chip revision and size before copying anything. Up to 4 MB per firmware.</p>
+  <p>Optional: a text file with the same name (<code>RigDeck.txt</code> next to <code>RigDeck.bin</code>) gives the name on the
+     tile (first line) and a short description (the next lines).</p>
+<pre>firmware/
+  RigDeck.bin
+  RigDeck.txt        RigDeck
+                     FT8 / FT4 station, logger and control head.
+  meshtastic.bin</pre>
+  <p>The last two firmware started stay on the board and start at once next time, card or no card.</p>
+
+  <p><a href="https://github.com/wrmichael/MultiDeck">Source code and technical README on GitHub</a> · MIT licence</p>
+  <footer>MultiDeck by AC9HP. Flashing uses <a href="https://esphome.github.io/esp-web-tools/">ESP Web Tools</a>. Title font: Audiowide (<a href="fonts/Audiowide-OFL.txt">SIL Open Font License</a>).</footer>
+</main>
+<script>
+fetch("manifest.json").then(r => r.json()).then(m => { document.getElementById("v").textContent = "version " + m.version; })
+  .catch(() => { document.getElementById("v").textContent = "not released yet"; });
+</script>
+</body>
+</html>
