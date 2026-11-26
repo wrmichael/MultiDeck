@@ -4,8 +4,7 @@
 
 ![MultiDeck main screen](docs/img/screen-main.png)
 
-MultiDeck runs on the **Waveshare ESP32-P4-WIFI6-Touch-LCD-7B**, the same board as
-[RigDeck](https://github.com/wrmichael/RigDeck), with the same gold Audiowide start-up screen. It sits in the board's
+MultiDeck runs on the **Waveshare ESP32-P4-WIFI6-Touch-LCD-7B**. It sits in the board's
 factory partition and:
 
 - lists every `.bin` in the `firmware` folder of the microSD card as a tile (gold monogram, name, version);
