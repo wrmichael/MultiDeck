@@ -88,6 +88,8 @@ idf.py build
 idf.py -p COM5 flash            # first time; or use the flasher page (docs/) after .\release.ps1
 ```
 
+Or double-click `tools\update_flash.bat` (pull from GitHub, build, flash), as for RigDeck. See `tools/README.md`.
+
 `sdkconfig.defaults` sets the target (esp32p4), 32 MB flash, PSRAM, LVGL and the partition table.
 App rollback is **off** in MultiDeck's bootloader: with it on, firmware that never confirms itself (most
 firmware) would be thrown out after its second reset.
@@ -107,6 +109,7 @@ The flasher page writes MultiDeck plus a blank `otadata`, and ends before RigDec
 | `bootloader_components/multideck_boot_hook` | BOOT-after-reset check |
 | `components/multideck_return` | for other firmware: return to MultiDeck |
 | `test/` | image reader test, PC preview of the interface |
+| `tools/` | Windows helpers as in RigDeck: update & flash, release, serial log capture |
 
 ## Licence
 
